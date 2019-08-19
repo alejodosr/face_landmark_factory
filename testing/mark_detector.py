@@ -142,9 +142,27 @@ class MarkDetector:
     @staticmethod
     def draw_marks(image, marks, color=(255, 255, 255), thick=1):
         """Draw mark points on image"""
-        for mark in marks:
+        for i, mark in enumerate(marks):
+            if i < 1:
+                color = (255, 0, 0)
+            elif i >= 5 and i < 9:
+                color = (0, 255, 0)
+            else:
+                color = (0, 0, 255)
             cv2.circle(image, (int(mark[0]), int(
                 mark[1])), thick, color, -1, cv2.LINE_AA)
+
+    @staticmethod
+    def draw_democracy(image, marks):
+        color = (0,0,0)
+        cv2.circle(image, (int(marks[18][0]), int(
+            marks[18][1])), 2, color, -1, cv2.LINE_AA) # Left eye
+        cv2.circle(image, (int(marks[26][0]), int(
+            marks[26][1])), 2, color, -1, cv2.LINE_AA) # Right eye
+        cv2.circle(image, (int(marks[8][0]), int(
+            marks[8][1])), 2, color, -1, cv2.LINE_AA) # Mouth
+        marks_filtered = [marks[18], marks[26], marks[8]]
+        cv2.fillConvexPoly(image, np.array(marks_filtered, 'int32'), (0,0,0))
 
 class FaceDetector:
     """Detect human face from image"""

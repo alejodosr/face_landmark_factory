@@ -11,7 +11,7 @@ os.environ["CUDA_VISIBLE_DEVICES"]="0,1"
 def webcam_main():
     print("Camera sensor warming up...")
     cv2.namedWindow('face landmarks', cv2.WINDOW_NORMAL)
-    vs = cv2.VideoCapture(VIDEO_PATH)
+    vs = cv2.VideoCapture(0)
     time.sleep(2.0)
 
     mark_detector = MarkDetector(current_model, CNN_INPUT_SIZE)
@@ -52,7 +52,8 @@ def webcam_main():
                 marks[:, 0] += facebox[0]
                 marks[:, 1] += facebox[1]
                 # Draw Predicted Landmarks
-                mark_detector.draw_marks(frame, marks, color=(255, 255, 255), thick=2)
+                # mark_detector.draw_marks(frame, marks, color=(255, 255, 255), thick=2)
+                mark_detector.draw_democracy(frame, marks)
 
         fps_time = (cv2.getTickCount() - start)/cv2.getTickFrequency()
         cv2.putText(frame, '%.1ffps'%(1/fps_time), (frame.shape[1]-65,15), cv2.FONT_HERSHEY_DUPLEX, 0.5, (0,255,0))
